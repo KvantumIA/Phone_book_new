@@ -1,88 +1,102 @@
-def Interfeis_contact(telefon_list_name_file = 'Telefon_list.txt'):
-    interfeis_contact = int(input('Введите 1 для поиска, введите 2 для добавления контакта, 3 для удаления контакта, 4 для редактирования, 5 для вывода всех контактов, 0 для выхода: '))
-    while interfeis_contact != 0:
-        if interfeis_contact == 1:
-            Find_contact()
-        elif interfeis_contact == 2:
-            Write_Contact()
-        elif interfeis_contact == 3:
-            Delete_contacts()
-        elif interfeis_contact == 4:
-            Edit_contacts()
+import os
+
+def print_menu():
+    print('\nВыберите пункт меню:')
+    print('1.Добавить контакт')
+    print('2.Посмотреть контакты')
+    print('3.Поиск контакта')
+    print('4.Изменение контакта')
+    print('5.Удаление контакта')
+
+    print('\n6.Выход')
+
+
+def enter_menu():
+    num_action = int(input('\n\nВведите пункт меню: '))
+    os.system('cls')
+    match num_action:
+        case 1:
+            print('Добавление контакта:')
+            write_data()
+            print('Контакт добавлен!')
+        case 2:
+            print('Просмотр контактов:')
+            # Print_contacts()
+        case 3:
+            print('Поиск контактов:')
+            find_person()
+        case 4:
+            print('Изменение контакта')
+            update_contact()
+        case 5:
+            print('Удаление контакта')
+            delete_contact()
+        case 6:
+            print('Выход')
+            exit()
+        case _:
+            print('Такого пункта нет!')
+    return num_action
+
+def write_person(second_name, first_name, phone):
+    with open('directory.txt', 'a', encoding='utf-8') as f:
+        f.write(f'\n{second_name}, {first_name}, {phone}')
+
+def write_data():
+    second_name = input('Введите фамилию: ')
+    first_name = input('Введите имя: ')
+    phone = input('Введите номер телефона: ')
+    write_person(second_name, first_name, phone)
+
+def find_person():
+    find_name = input('Поиск контакта: ')
+    data = open('directory.txt', 'r', encoding='utf-8')
+    None_contact = True
+    for i in data.readlines():
+        if find_name in i:
+            print('Контакт найден:', i, end = '')
+            None_contact = False
+    if None_contact:
+        print('Контакт не найден')
+    data.close()
+
+def update_contact():
+    search_name = input('Введите фамилию контакта, который хотите изменить: ')
+    with open("directory.txt", "r", encoding='utf-8') as f:
+        lines = f.readlines()
+    with open("directory.txt", "r+", encoding='utf-8') as f:
+        for line in lines:
+            contact = line.strip().split(', ')
+            if search_name.lower() in contact[0].lower():
+                new_second_name = input('Введите новую фамилию: ')
+                new_first_name = input('Введите новое имя: ')
+                new_phone = input('Введите новый номер телефона: ')
+                f.write(f'{new_second_name}, {new_first_name}, {new_phone}\n')
+                print('Контакт успешно изменен!')                        
+                f.write(line)
+                break
+            else:
+                print('Контакт не найден.')
+
+def delete_contact():
+    search_name = input('Введите фамилию контакта, который хотите удалить: ')
+    with open("directory.txt", "r", encoding='utf-8') as f:
+        lines = f.readlines()
+    with open("directory.txt", "w", encoding='utf-8') as f:
+        contact_found = False
+        for line in lines:
+            contact = line.strip().split(', ')
+            if search_name.lower() not in contact[0].lower():
+                f.write(line)
+            else:
+                contact_found = True
+        if contact_found:
+            print('Контакт успешно удален!')
         else:
-            Print_contacts()
-        interfeis_contact = int(input('\n Введите 1 для поиска, введите 2 для добавления контакта, 3 для удаления контакта, 4 для редактирования, 5 для вывода всех контактов, 0 для выхода: '))
+            print('Контакт не найден.')
 
 
-def Write_Contact(telefon_list_name_file = 'Telefon_list.txt'):
-    with open(telefon_list_name_file, 'a', encoding='UTF-8') as telefon_list:
-        first_name = input("Введите фамилию: ")        
-        last_name = input("Введите имя: ")
-        telefon = input("Введите телефон: ")
-        while len(telefon) != 11 or not telefon.isdigit():
-            print('Вы ввели неправильный телефон')
-            telefon = input("Введите телефон: ")
-        telefon_list.write('\n' + last_name + ', ' +  first_name + ', ' +  telefon)
 
-
-def Find_contact(telefon_list_name_file = 'Telefon_list.txt'):
-    with open(telefon_list_name_file, 'r', encoding='UTF-8') as telefon_list:
-        find_name = input('Поиск: ')
-        lines = telefon_list.readlines()
-        None_contact = True
-        for i in lines:
-            if find_name in i:
-                print('Контакт найден:', i, end = '')
-                None_contact = False
-        if None_contact:
-            print('Контакт не найден')
-
-
-def Print_contacts(telefon_list_name_file = 'Telefon_list.txt'):
-    with open(telefon_list_name_file, 'r', encoding='UTF-8') as telefon_list:
-        lines = telefon_list.readlines()
-        for i in lines:
-            print(i, end = '')
-
-
-def Delete_contacts(telefon_list_name_file = 'Telefon_list.txt'):
-    print('\n Имя | Фамилия | Телефон')
-    with open(telefon_list_name_file, 'r', encoding='utf-8') as telefon_list:
-        telefon_list = telefon_list.read()
-        print(telefon_list)
-        print(' ')
-        index_delete_data = int(input('Введите номер строки для удаления: ')) 
-        tel_book_lines = telefon_list.split('\n')
-        del_tel_book_lines = tel_book_lines[index_delete_data]
-        tel_book_lines.pop(index_delete_data)
-        print(f'Удалена запись: {del_tel_book_lines}\n')
-        with open(telefon_list_name_file, 'w', encoding='utf-8') as data:
-            data.write('\n'.join(tel_book_lines))
-
-
-def Edit_contacts(telefon_list_name_file = 'Telefon_list.txt'):
-    print('\n Имя | Фамилия | Телефон')
-    with open(telefon_list_name_file, 'r', encoding='utf-8') as telefon_list:
-        telefon_list = telefon_list.read()
-        print(telefon_list)
-        print(' ')
-        index_delete_data = int(input('Введите номер строки для редактирования: '))
-        tel_book_lines = telefon_list.split('\n')
-        edit_tel_book_lines = tel_book_lines[index_delete_data]
-        elements = edit_tel_book_lines.split(' , ')
-        last_name = input("Введите имя: ")
-        first_name = input("Введите фамилию: ")        
-        phone = input("Введите телефон: ")
-        if len(first_name) == 0:
-            first_name = elements[1]
-            if len(last_name) == 0:
-                last_name = elements[2]
-                if len(phone) == 0:
-                    phone = elements[2]
-        edited_line = f'{last_name}, {first_name}, {phone}'
-        tel_book_lines[index_delete_data] = edited_line
-        print(f'Запись — {edit_tel_book_lines}, изменена на — {edited_line}\n')
-        with open(telefon_list_name_file, 'w', encoding='utf-8') as data:
-            data.write('\n'.join(tel_book_lines))
-
-Interfeis_contact()
+# path = 'directory.txt'
+print_menu()
+enter_menu()

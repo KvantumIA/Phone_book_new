@@ -7,21 +7,45 @@
 # записи(Например имя или фамилию человека)
 # 4. Использование функций. Ваша программа не должна быть линейной
 
+import os
 
-def Interfeis_contact(telefon_list_name_file = 'Telephone_list.txt'):
-    interfeis_contact = int(input('Введите 1 для поиска, введите 2 для добавления контакта, 3 для вывода всех контактов, 4 для изменения контакта, 5 для удаления контакта, 0 для выхода: '))
-    while interfeis_contact != 0:
-        if interfeis_contact == 1:
-            Find_contact()
-        elif interfeis_contact == 2:
+def print_menu():
+    print('\nВыберите пункт меню:')
+    print('1.Добавить контакт')
+    print('2.Посмотреть контакты')
+    print('3.Поиск контакта')
+    print('4.Изменение контакта')
+    print('5.Удаление контакта')
+
+    print('\n6.Выход')
+
+
+def enter_menu():
+    num_action = int(input('\n\nВведите пункт меню: '))
+    os.system('cls')
+    match num_action:
+        case 1:
+            print('Добавление контакта:')
             Write_Contact()
-        elif interfeis_contact == 3:
+            print('Контакт добавлен!')
+        case 2:
+            print('Просмотр контактов:')
             Print_contacts()
-        elif interfeis_contact == 4:
+        case 3:
+            print('Поиск контактов:')
+            Find_contact()
+        case 4:
+            print('Изменение контакта')
             Edit_contacts()
-        elif interfeis_contact == 5:
-            Delete_contacts()  
-        interfeis_contact = int(input('\n Введите 1 для поиска, введите 2 для добавления контакта, 3 для вывода всех контактов, 4 для изменения контакта, 5 для удаления контакта, 0 для выхода: '))
+        case 5:
+            print('Удаление контакта')
+            Delete_contacts()
+        case 6:
+            print('Выход')
+            exit()
+        case _:
+            print('Такого пункта нет!')
+    return num_action
 
 
 def Write_Contact(telefon_list_name_file = 'Telephone_list.txt'):    #Записать новый контакт
@@ -53,6 +77,7 @@ def Print_contacts(telefon_list_name_file = 'Telephone_list.txt'):  #Вывод 
         lines = telefon_list.readlines()
         for i in lines:
             print(i, end = '')
+
 
 def Edit_contacts(telefon_list_name_file = 'Telephone_list.txt'):  #Изменение контакта
     print('\n Фамилия | Имя | Телефон')
@@ -94,28 +119,5 @@ def Delete_contacts(telefon_list_name_file = 'Telephone_list.txt'):
         with open(telefon_list_name_file, 'w', encoding='utf-8') as data:
             data.write('\n'.join(tel_book_lines))
 
-
-Interfeis_contact()
-
-
-# import customtkinter
-
-# сlass ButtonClass:
-
-#     def button_Write_Contact():
-#         print(Write_Contact(telefon_list_name_file = "Telefon_list.txt"))
-
-
-# customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
-# customtkinter.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
-
-# app = customtkinter.CTk()
-# app.title("Телефонная книга")
-# app.geometry("400x300")
-
-# # Use CTkButton instead of tkinter Button
-# button_Write_Contact = customtkinter.CTkButton(master=app, text="Новый контакт", command=button_Write_Contact)
-# button_Write_Contact.place(relx=0.2, rely=0.1, anchor=customtkinter.CENTER)
-
-
-# app.mainloop()
+print_menu()
+enter_menu()

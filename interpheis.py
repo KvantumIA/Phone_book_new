@@ -1,22 +1,23 @@
 import customtkinter
 
-class App(customtkinter.CTk):
-    def __init__(self):
-        super().__init__()
 
-        self.title("my app")
-        self.geometry("400x150")
-        self.grid_columnconfigure((0, 1), weight=1)
+сlass ButtonClass:
 
-        self.button = customtkinter.CTkButton(self, text="my button", command=self.button_callback)
-        self.button.grid(row=0, column=0, padx=20, pady=20, sticky="ew", columnspan=2)
-        self.checkbox_1 = customtkinter.CTkCheckBox(self, text="checkbox 1")
-        self.checkbox_1.grid(row=1, column=0, padx=20, pady=(0, 20), sticky="w")
-        self.checkbox_2 = customtkinter.CTkCheckBox(self, text="checkbox 2")
-        self.checkbox_2.grid(row=1, column=1, padx=20, pady=(0, 20), sticky="w")
-        
-    def button_callback(self):
-        print("button pressed")
+    @staticmethod
+    def button_Write_Contact():
+        print(Write_Contact(telefon_list_name_file = "Telefon_list.txt"))
 
-app = App()
+
+customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
+customtkinter.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
+
+app = customtkinter.CTk()
+app.title("Телефонная книга")
+app.geometry("400x300")
+
+# Use CTkButton instead of tkinter Button
+button_Write_Contact = customtkinter.CTkButton(master=app, text="Новый контакт", command=button_Write_Contact)
+button_Write_Contact.place(relx=0.2, rely=0.1, anchor=customtkinter.CENTER)
+
+
 app.mainloop()
