@@ -74,18 +74,6 @@ def find_person():
         if None_contact:
             print('Контакт не найден')
 
-def Correct_contact(row):
-    first_name = input('Введите измененную фамилию: ')
-    second_name = input('Введите изменненое имя: ')
-    phone = input('Введите новый номер телефона: ')
-    new_contact = {"first_name": first_name, "last_name": second_name, "phone": phone}
-    with open(Phone_book_file, 'r+', encoding='UTF-8') as file:
-        columns = ["first_name", "last_name", "phone"]
-        writer = csv.DictWriter(file, fieldnames=columns)
-        row["first_name"] = first_name
-        row["second_name"] = second_name
-        row["phone"] = phone
-
 def update_contact():
     search_name = input('Введите фамилию контакта, который хотите изменить: ')
     temp_file = "temp_directory.csv"
@@ -140,7 +128,68 @@ def delete_contact():
 
 
 
-Phone_book_file = "Telephone_list_2.csv"
+Phone_book_file = "CSV_version\Telephone_list_2.csv"
 
-print_menu()
-enter_menu()
+# print_menu()
+# enter_menu()
+
+
+
+
+
+
+
+import customtkinter
+
+class Interfeis(customtkinter.CTk):
+    """Интерфейс программы"""
+    def __init__(self):
+        super().__init__()
+        self.geometry("600x350")
+        self.title("Телефонная книга")
+
+        frame_button = customtkinter.CTkFrame(self, width= 200, height= 250, corner_radius= 0, bg_color="blue")
+        frame_button.pack(padx = 20, pady = 20)
+        frame_button.place(relx=0.2, rely=0.4, anchor=customtkinter.CENTER)
+
+        self.button_Write_data = customtkinter.CTkButton(master = frame_button, text="Новый контакт", command=self.button_click_Write_data)
+        self.button_Write_data.place(relx=0.5, rely=0.1, anchor=customtkinter.CENTER)
+
+        self.button_Print_contacts = customtkinter.CTkButton(master = frame_button, text="Вывод всех контактов", command=self.button_click_Print_contacts)
+        self.button_Print_contacts.place(relx=0.5, rely=0.3, anchor=customtkinter.CENTER)
+
+        self.button_find_person = customtkinter.CTkButton(master = frame_button, text="Найти контакт", command=self.button_click_find_person)
+        self.button_find_person.place(relx=0.5, rely=0.5, anchor=customtkinter.CENTER)
+
+        self.button_update_contact = customtkinter.CTkButton(master = frame_button, text="Изменить контакт", command=self.button_click_update_contact)
+        self.button_update_contact.place(relx=0.5, rely=0.7, anchor=customtkinter.CENTER)
+
+        self.button_delete_contact = customtkinter.CTkButton(master = frame_button, text="Удалить контакт", command=self.button_click_delete_contact)
+        self.button_delete_contact.place(relx=0.5, rely=0.9, anchor=customtkinter.CENTER)
+
+        frame_place = customtkinter.CTkFrame(self, width= 350, height= 250, corner_radius= 10, bg_color="blue")
+        frame_place.pack(padx = 20, pady = 20)
+        frame_place.place(relx=0.4, rely=0.4, anchor=customtkinter.W)
+
+        # textbox = customtkinter.CTkTextbox(master=frame_place)
+        # textbox.grid(row = len(Phone_book_file), column = 3)
+        # textbox.insert("0.0", Print_contacts())
+
+    def button_click_Write_data(self):
+        print("Создан новый контакт")
+    def button_click_Print_contacts(self):
+        print("Вывод всех контактов")
+    def button_click_find_person(self):
+        print("Найти контакт")
+    def button_click_update_contact(self):
+        print("Изменить контакт")
+    def button_click_delete_contact(self):
+        print("Удалить контакт")
+
+    
+
+    # customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
+    # customtkinter.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
+
+app = Interfeis()
+app.mainloop()
