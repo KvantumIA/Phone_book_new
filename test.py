@@ -39,7 +39,7 @@ def enter_menu():
     return num_action
 
 def write_person(second_name, first_name, phone):
-    with open('directory.txt', 'a', encoding='utf-8') as f:
+    with open('directory.txt', 'a', encoding='UTF-8') as f:
         f.write(f'\n{second_name}, {first_name}, {phone}')
 
 def write_data():
@@ -50,7 +50,7 @@ def write_data():
 
 def find_person():
     find_name = input('Поиск контакта: ')
-    data = open('directory.txt', 'r', encoding='utf-8')
+    data = open('directory.txt', 'r', encoding='UTF-8')
     None_contact = True
     for i in data.readlines():
         if find_name in i:
@@ -62,27 +62,28 @@ def find_person():
 
 def update_contact():
     search_name = input('Введите фамилию контакта, который хотите изменить: ')
-    with open("directory.txt", "r", encoding='utf-8') as f:
+    with open("directory.txt", "r", encoding='UTF-8') as f:
         lines = f.readlines()
-    with open("directory.txt", "r+", encoding='utf-8') as f:
+    with open("directory.txt", "r+", encoding='UTF-8') as f:
+        None_contact = True
         for line in lines:
             contact = line.strip().split(', ')
             if search_name.lower() in contact[0].lower():
                 new_second_name = input('Введите новую фамилию: ')
                 new_first_name = input('Введите новое имя: ')
                 new_phone = input('Введите новый номер телефона: ')
-                f.write(f'{new_second_name}, {new_first_name}, {new_phone}\n')
-                print('Контакт успешно изменен!')                        
                 f.write(line)
-                break
-            else:
-                print('Контакт не найден.')
+                f.write(f'{new_second_name}, {new_first_name}, {new_phone}')
+                print('Контакт успешно изменен!')                        
+                None_contact = False
+        if None_contact:
+            print('Контакт не найден')
 
 def delete_contact():
     search_name = input('Введите фамилию контакта, который хотите удалить: ')
-    with open("directory.txt", "r", encoding='utf-8') as f:
+    with open("directory.txt", "r", encoding='UTF-8') as f:
         lines = f.readlines()
-    with open("directory.txt", "w", encoding='utf-8') as f:
+    with open("directory.txt", "w", encoding='UTF-8') as f:
         contact_found = False
         for line in lines:
             contact = line.strip().split(', ')
@@ -97,6 +98,6 @@ def delete_contact():
 
 
 
-# path = 'directory.txt'
+path = 'directory.txt'
 print_menu()
 enter_menu()
